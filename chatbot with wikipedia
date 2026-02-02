@@ -1,0 +1,88 @@
+import re
+import random
+import datetime
+!pip install wikipedia
+import wikipedia
+
+def chatbot_response(user_input):
+    user_input = user_input.lower()
+
+    # Greetings
+    if re.search(r"\b(hi|hello|hey)\b", user_input):
+        return random.choice([
+            "Hey there! 😊",
+            "Hello! Ready to chat?",
+            "Hi! What’s on your mind today?"
+        ])
+
+    # Name
+    elif "your name" in user_input:
+        return "I’m Nova 🤖 — your friendly world-aware chatbot."
+
+    # Mood
+    elif "how are you" in user_input:
+        return random.choice([
+            "Feeling awesome today 😄",
+            "All systems running smoothly 🚀",
+            "Happy to talk with you!"
+        ])
+
+    # Date & time
+    elif "time" in user_input or "date" in user_input:
+        now = datetime.datetime.now()
+        return f"📅 Today is {now.strftime('%d %B %Y')} and ⏰ time is {now.strftime('%I:%M %p')}"
+
+    # Joke
+    elif "joke" in user_input:
+        jokes = [
+            "Why do programmers love dark mode? Because light attracts bugs 🐞",
+            "Why did the computer go to the doctor? Because it caught a virus 🤒",
+            "I told my computer I needed a break… it froze ❄️"
+        ]
+        return random.choice(jokes)
+
+    # Love / emotions
+    elif "love" in user_input:
+        return "Love is just chemistry… but emotions make it magical ❤️"
+
+    # Help
+    elif "help" in user_input:
+        return (
+            "You can ask me:\n"
+            "- General questions (e.g., 'Who is Elon Musk')\n"
+            "- Jokes\n"
+            "- Time & date\n"
+            "- Just talk to me 😊"
+        )
+
+    # Exit
+    elif re.search(r"\b(bye|exit|quit)\b", user_input):
+        return "Goodbye 🌸 Keep smiling!"
+
+    # 🌍 WORLD KNOWLEDGE (Wikipedia)
+    else:
+        try:
+            summary = wikipedia.summary(user_input, sentences=2)
+            return summary
+        except:
+            return random.choice([
+                "Hmm… that’s interesting 🤔 Tell me more!",
+                "I’m not sure about that yet, but I’m learning 🌱",
+                "Can you ask that in a different way?"
+            ])
+
+def main():
+    print("🤖 Nova: Hello! I can chat, joke, and answer world questions.")
+    print("Type 'bye' to exit.\n")
+
+    while True:
+        user_input = input("You: ")
+
+        response = chatbot_response(user_input)
+        print("🤖 Nova:", response)
+
+        if re.search(r"\b(bye|exit|quit)\b", user_input.lower()):
+            break
+
+if __name__ == "__main__":
+    main()
